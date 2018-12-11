@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const VERIFY_TOKEN = "f34e8172d38f4001621b11f25c7dbe08";
+const APP_SECRET = "af146db21aa912f1b36bbf7d21a9d306";
+const PAGE_ACCESS_TOKEN = "EAAfBIGSlNtgBABPJ3I7Tuvi2yndxxI57LlQ95oswci7K5p1MVUWZBRzkVhkZB3Qct47t2P9263kvE88teyUWnOv5IZB4ICYcNWZChiBTNFSmWt4XsHsv0QS1CgWWutBtjRg2srTYyjmDAbbEpG4bCcHZCLxHjQ9N8Pnp1wt9OrQZDZD";
 
 router.get('/webhook', (req, res) => {
 
-    // Your verify token. Should be a random string.
-    let VERIFY_TOKEN = "f34e8172d38f4001621b11f25c7dbe08";
-
-    // Parse the query params
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
@@ -31,29 +30,39 @@ router.get('/webhook', (req, res) => {
 
 // Creates the endpoint for our webhook
 router.post('/webhook', (req, res) => {
-
-    let body = req.body;
-    console.log(body);
-    // Checks this is an event from a page subscription
-
-    if (body.object === 'page') {
-
-        // Iterates over each entry - there may be multiple if batched
-        body.entry.forEach(function(entry) {
-
-            // Gets the message. entry.messaging is an array, but
-            // will only ever contain one message, so we get index 0
-            let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
-        });
-
-        // Returns a '200 OK' response to all requests
-        res.status(200).send('EVENT_RECEIVED');
-    } else {
-        // Returns a '404 Not Found' if event is not from a page subscription
-        res.sendStatus(404);
+    var entries = req.body.entry;
+    for (var entry of entries) {
+        console.log(entry);
+        var messaging = entry.messaging;
+        for (var message of messaging) {
+            var senderId = message.sender.id;
+            if (message.message) {
+                if (message.message.text) {
+                    var text = message.message.text;
+                    sendMessage(senderId, "Hello!! I'm a bot. Your message: " + text);
+                }
+            }
+        }
     }
-
+    res.status(200).send("OK");
 });
+
+function sendMessage(senderId, message) {
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {
+            access_token: PAGE_ACCESS_TOKEN,
+        },
+        method: 'POST',
+        json: {
+            recipient: {
+                id: senderId
+            },
+            message: {
+                text: message
+            },
+        }
+    });
+}
 
 module.exports = router;
