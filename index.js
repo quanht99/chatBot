@@ -9,6 +9,11 @@ app.use(body_parser.urlencoded({ limit: '100mb', extended: true }));
 app.use(morgan('default'));
 
 app.use('/api', require('./router/webhook'));
+app.use('/api/v1', (req, res)=>{
+   return res.json({
+       success: true
+   })
+});
 app.listen(port , err => {
     if(!err){
         console.log("Server is running on 3000");
