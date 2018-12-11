@@ -24,7 +24,7 @@ router.post('/webhook', (req, res) => {
     console.log(req.body);
 
     // Check the webhook event is from a Page subscription
-    if (body.object === 'page') {
+    if (body.object === 'user') {
 
         // Iterate over each entry - there may be multiple if batched
         body.entry[0].changes.forEach(function(entry) {
