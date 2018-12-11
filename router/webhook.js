@@ -16,33 +16,25 @@ router.get('/webhook', (req, res) => {
         }
 });
 
-// Creates the endpoint for our webhook
-router.post('/webhook', (req, res) => {
-
-    // Parse the request body from the POST
-    let body = req.body;
-    console.log(req.body);
-
-    // Check the webhook event is from a Page subscription
-    if (body.object === 'user') {
-
-        // Iterate over each entry - there may be multiple if batched
-        body.entry[0].changes.forEach(function(entry) {
-
-            // Gets the body of the webhook event
-            let webhook_event = entry.value;
-            console.log(webhook_event);
-        });
-
-        // Return a '200 OK' response to all events
-        res.status(200).send('EVENT_RECEIVED');
-
-    } else {
-        // Return a '404 Not Found' if event is not from a page subscription
-        res.sendStatus(404);
+router.post('/webhook', function(req, res) {
+    var entries = req.body.entry;
+    for (var entry of entries) {
+        var messaging = entry.messaging;
+        for (var message of messaging) {
+            var senderId = message.sender.id;
+            if (message.message) {
+                // If user send text
+                if (message.message.text) {
+                    var text = message.message.text;
+                    console.log(text); // In tin nhắn người dùng
+                    sendMessage(senderId, "Tui là bot đây: " + text);
+                }
+            }
+        }
     }
 
-    });
+    res.status(200).send("OK");
+});
 
 function sendMessage(senderId, message) {
     request({
