@@ -4,6 +4,9 @@ const VERIFY_TOKEN = "f34e8172d38f4001621b11f25c7dbe08";
 const APP_SECRET = "af146db21aa912f1b36bbf7d21a9d306";
 const PAGE_ACCESS_TOKEN = "EAAFvhxfFehoBAE6W5ZBQKanfeRvDIs9XZA3DfCPTwgZBeuURfL6K92bwvEDu4rYz1osTR5ZC0lZAQu6nMvyIfzmPTvQsCHqMefoZAzz4MMZAHLv04GMDFKwi0ioD5THFQ3z2DJJ3Au6ZCnpzYMBAvCCZBXVqyCrjhj3EA3SbhoACxYQZDZD";
 var request = require("request");
+
+
+
 router.get('/webhook', (req, res) => {
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
@@ -22,6 +25,7 @@ router.post('/webhook', function(req, res) {
         var messaging = entry.messaging;
         for (var message of messaging) {
             var senderId = message.sender.id;
+            console.log(message.sender.id);
             if (message.message) {
                 // If user send text
                 if (message.message.text) {
