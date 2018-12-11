@@ -9,7 +9,7 @@ app.use(body_parser.urlencoded({ limit: '100mb', extended: true }));
 app.use(morgan('default'));
 
 app.use('/api', require('./router/webhook'));
-app.use('/api/v1', (req, res)=>{
+app.use('', (req, res)=>{
    return res.json({
        success: true
    })
