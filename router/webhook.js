@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const VERIFY_TOKEN = "f34e8172d38f4001621b11f25c7dbe08";
 const APP_SECRET = "af146db21aa912f1b36bbf7d21a9d306";
-const PAGE_ACCESS_TOKEN = "EAAFvhxfFehoBAE6W5ZBQKanfeRvDIs9XZA3DfCPTwgZBeuURfL6K92bwvEDu4rYz1osTR5ZC0lZAQu6nMvyIfzmPTvQsCHqMefoZAzz4MMZAHLv04GMDFKwi0ioD5THFQ3z2DJJ3Au6ZCnpzYMBAvCCZBXVqyCrjhj3EA3SbhoACxYQZDZD";
+const PAGE_ACCESS_TOKEN = "EAAK9YsFwKooBAIu8u8zKsTZBL0ymo010UxgztHDhKmkez2ZBB7pkpYIM1Pe1V5r3vDPLsRuyatmAeTRRdZA8b2iuQtFKjeZBOpmnMHSoNclYn3j3x8u48DgMcgODZAONZBKv7MTB46CPEOOBsOl9jlZCBlTiSnPtWO4X0SZBNWu8MAZDZD";
 var request = require("request");
 
 
