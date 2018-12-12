@@ -25,12 +25,11 @@ router.post('/webhook', function(req, res) {
         let messaging = entry.messaging;
         for (let message of messaging) {
             let senderId = message.sender.id;
-            console.log(message.sender.id);
+            console.log("id_user: ",message.sender.id);
             if (message.message) {
-                // If user send text
                 if (message.message.text) {
                     let text = message.message.text;
-                    console.log(text); // In tin nhắn người dùng
+                    console.log("message: ", text);
                     sendMessage(senderId, "Tui là bot đây: " + text);
                 }
             }
