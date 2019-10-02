@@ -7,8 +7,12 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(body_parser.json({ limit: '100mb' }));
 app.use(body_parser.urlencoded({ limit: '100mb', extended: true }));
-app.use(morgan('default'));
+app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]'));
 
+app.use('/ping', (req, res) => {
+	console.log("Hello world.");
+	res.send("pong")
+});
 app.use('/api', require('./router/webhook'));
 app.use('', (req, res)=>{
    return res.json({
